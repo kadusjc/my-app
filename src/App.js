@@ -1,26 +1,73 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'materialize-css/dist/css/materialize.min.css'
+import './App.css'
+import Table from './Tabela'
+import Form from './Formulario'
+import Header from './Header'
+import React, { Component, Fragment } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    autores: [
+      {
+        id: 1,
+        nome: 'Paulo',
+        livro: 'React',
+        preco: '1000'
+      },
+      {
+        id: 2,
+        nome: 'Daniel',
+        livro: 'Java',
+        preco: '99'
+      },
+      {
+        id: 3,
+        nome: 'Marcos',
+        livro: 'Design',
+        preco: '150'
+      },
+      {
+        id: 4,
+        nome: 'Bruno',
+        livro: 'DevOps',
+        preco: '100'
+      },
+      {
+        id: 5,
+        nome: 'Kadu',
+        livro: 'Eng',
+        preco: '100'
+      }
+    ]
+  }
+
+  removeAutor = (index) => {
+    const { autores } = this.state
+    this.setState({
+      autores: autores.filter((autor, posAtual) => {
+        return posAtual !== index;
+      })
+    })
+  }
+
+  adicionaAutor = newAutor => {
+    const allAuthors = this.state.autores
+    allAuthors.push(newAutor)
+    this.setState({ autores: allAuthors })
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <Header />
+        <div className="container mb-10">
+          <Table autores={this.state.autores} removeAutor={this.removeAutor} />
+          <Form adicionaAutor={this.adicionaAutor} />
+        </div>
+
+      </Fragment>
+    )
+  }
 }
 
 export default App;
