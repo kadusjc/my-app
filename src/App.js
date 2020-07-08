@@ -1,4 +1,5 @@
 import 'materialize-css/dist/css/materialize.min.css'
+import M from 'materialize-css';
 import './App.css'
 import Table from './Tabela'
 import Form from './Formulario'
@@ -46,8 +47,9 @@ class App extends Component {
     this.setState({
       autores: autores.filter((autor, posAtual) => {
         return posAtual !== index;
-      })
-    })
+      })      
+    })  
+    M.toast({html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000})  
   }
 
   adicionaAutor = newAutor => {
