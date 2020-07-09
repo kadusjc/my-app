@@ -5,57 +5,35 @@ import Table from './Tabela'
 import Form from './Formulario'
 import Header from './Header'
 import React, { Component, Fragment } from 'react'
+import ApiService from './services/ApiService'
 
 class App extends Component {
-  state = {
-    autores: [
-      {
-        id: 1,
-        nome: 'Paulo',
-        livro: 'React',
-        preco: '1000'
-      },
-      {
-        id: 2,
-        nome: 'Daniel',
-        livro: 'Java',
-        preco: '99'
-      },
-      {
-        id: 3,
-        nome: 'Marcos',
-        livro: 'Design',
-        preco: '150'
-      },
-      {
-        id: 4,
-        nome: 'Bruno',
-        livro: 'DevOps',
-        preco: '100'
-      },
-      {
-        id: 5,
-        nome: 'Kadu',
-        livro: 'Eng',
-        preco: '100'
-      }
-    ]
+  state = { autores: [] }
+
+  async updateAuthorsList() {
+    let { data } = await ApiService.getAuthors()
+    this.setState({ autores: data })
   }
 
-  removeAutor = (index) => {
+  async componentDidMount() {
+    await this.updateAuthorsList()
+  }
+
+  adicionaAutor = (newAutor) => {
     const { autores } = this.state
-    this.setState({
-      autores: autores.filter((autor, posAtual) => {
-        return posAtual !== index;
-      })      
-    })  
-    M.toast({html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000})  
+    return ApiService.createAuthors(newAutor)
+      .then((data) => {
+        M.toast({ html: 'Autor criado com sucesso', classes: 'light-green', displayLenght: 2000 })
+        return this.updateAuthorsList()
+      })
   }
 
-  adicionaAutor = newAutor => {
-    const allAuthors = this.state.autores
-    allAuthors.push(newAutor)
-    this.setState({ autores: allAuthors })
+  removeAutor = (id) => {
+    return ApiService.removeAuthor(id)
+      .then((data) => {
+        M.toast({ html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000 })
+        return this.updateAuthorsList()
+      })
   }
 
   render() {
@@ -63,7 +41,10 @@ class App extends Component {
       <Fragment>
         <Header />
         <div className="container mb-10">
+          <h1>Ferreiro Correa Software</h1>
           <Table autores={this.state.autores} removeAutor={this.removeAutor} />
+          <br /><br />
+
           <Form adicionaAutor={this.adicionaAutor} />
         </div>
 
@@ -72,4 +53,6 @@ class App extends Component {
   }
 }
 
+
 export default App;
+
