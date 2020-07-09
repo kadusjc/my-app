@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 export default function Formulario(props) {
     const { register, handleSubmit, errors } = useForm()
 
-    const submitForm = (newAutor) => _submitForm(newAutor, props)
+    const submitForm = (newAutor) => props.adicionaAutor(newAutor)    
 
     return (
         <form onSubmit={handleSubmit(submitForm)} >
@@ -55,8 +55,4 @@ export default function Formulario(props) {
             </div>
         </form>
     )
-}
-
-async function _submitForm(newAutor, props) {
-    await props.adicionaAutor(newAutor)    
 }
