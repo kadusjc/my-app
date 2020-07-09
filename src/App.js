@@ -19,21 +19,17 @@ class App extends Component {
     await this.updateAuthorsList()
   }
 
-  adicionaAutor = (newAutor) => {
+  adicionaAutor = async (newAutor) => {
     const { autores } = this.state
-    return ApiService.createAuthors(newAutor)
-      .then((data) => {
-        M.toast({ html: 'Autor criado com sucesso', classes: 'light-green', displayLenght: 2000 })
-        return this.updateAuthorsList()
-      })
+     await ApiService.createAuthors(newAutor)
+     M.toast({ html: 'Autor criado com sucesso', classes: 'light-green', displayLenght: 2000 })
+     return this.updateAuthorsList()
   }
 
-  removeAutor = (id) => {
-    return ApiService.removeAuthor(id)
-      .then((data) => {
-        M.toast({ html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000 })
-        return this.updateAuthorsList()
-      })
+  removeAutor = async (id) => {
+    await ApiService.removeAuthor(id)
+    M.toast({ html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000 })
+    return this.updateAuthorsList()   
   }
 
   render() {
