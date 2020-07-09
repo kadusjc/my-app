@@ -23,13 +23,13 @@ class App extends Component {
     const { autores } = this.state
      await ApiService.createAuthors(newAutor)
      M.toast({ html: 'Autor criado com sucesso', classes: 'light-green', displayLenght: 2000 })
-     return this.updateAuthorsList()
+     await this.updateAuthorsList()
   }
 
   removeAutor = async (id) => {
     await ApiService.removeAuthor(id)
     M.toast({ html: 'Autor removido com sucesso', classes: 'light-green', displayLenght: 2000 })
-    return this.updateAuthorsList()   
+    await this.updateAuthorsList()   
   }
 
   render() {
